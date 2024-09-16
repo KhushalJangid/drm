@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" data-theme="dark">
+
+<head>
+  <title>DRM</title>
+  <link rel="stylesheet" href="{% static "css/base.css" %}">
+  <script src="{% static "js/cpu.js" %}"></script>
+  <script src="{% static "js/memory.js" %}"></script>
+  <script src="{% static "js/disk.js" %}"></script>
+  <script src="{% static "js/main.js" %}"></script>
+  <link rel="stylesheet" href="/static/admin/css/base.css">
+  <link rel="stylesheet" href="/static/admin/css/dark_mode.css">
+  <script src="/static/admin/js/theme.js"></script>
+  <link rel="stylesheet" href="/static/admin/css/nav_sidebar.css">
+  <script src="/static/admin/js/nav_sidebar.js" defer=""></script>
+  <link rel="stylesheet" href="/static/admin/css/changelists.css">
+  <script src="/admin/jsi18n/"></script>
+  <script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+  <script src="/static/admin/js/jquery.init.js"></script>
+  <script src="/static/admin/js/core.js"></script>
+  <!-- <script src="/static/admin/js/admin/RelatedObjectLookups.js"></script> -->
+  <script src="/static/admin/js/actions.js"></script>
+  <script src="/static/admin/js/urlify.js"></script>
+  <script src="/static/admin/js/prepopulate.js"></script>
+  <!-- <script src="/static/admin/js/vendor/xregexp/xregexp.js"></script> -->
+  <!-- <script src="/static/admin/js/filters.js" defer=""></script> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/admin/css/responsive.css">
+  <meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+      <div id="branding">
+        <div id="site-name"><a href="/admin/">Django administration</a></div>
+      </div>
+      <div id="user-tools">
+        Welcome,
+        <strong>khushal</strong>.
+        <a href="/">View site</a> /
+        <form id="logout-form" method="post" action="/admin/logout/">
+          <input type="hidden" name="csrfmiddlewaretoken"
+            value="SMDXDlSLBrMBUmQ6P6yskioGmeb2y8bmCDk4p86AUnXdADZwIoaKAeXe9xZUo7Ea">
+          <button type="submit">Log out</button>
+        </form>
+        <button class="theme-toggle">
+          <span class="visually-hidden theme-label-when-auto">Toggle theme (current theme: auto)</span>
+          <span class="visually-hidden theme-label-when-light">Toggle theme (current theme: light)</span>
+          <span class="visually-hidden theme-label-when-dark">Toggle theme (current theme: dark)</span>
+          <svg aria-hidden="true" class="theme-icon-when-auto">
+            <use xlink:href="#icon-auto"></use>
+          </svg>
+          <svg aria-hidden="true" class="theme-icon-when-dark">
+            <use xlink:href="#icon-moon"></use>
+          </svg>
+          <svg aria-hidden="true" class="theme-icon-when-light">
+            <use xlink:href="#icon-sun"></use>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <div class="main shifted" id="main">
+      <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+      <nav class="sticky" id="nav-sidebar" aria-label="Sidebar" aria-expanded="true">
+        <div class="app-auth module current-app">
+          <table>
+            <caption>
+              <h3 class="section">Django Resource Monitor</h3>
+            </caption>
+            <tbody>
+              <tr class="model-group">
+                <th scope="row" id="auth-group">
+                  <a href="#">Resources</a>
+                </th>
+              </tr>
+              <tr class="model-user current-model">
+                <th scope="row" id="auth-user">
+                  <a href="#" aria-current="page">Processes</a>
+                </th>
+              </tr>
+              <tr class="model-user current-model">
+                <th scope="row" id="auth-user">
+                  <a href="#" aria-current="page">Services</a>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </nav>
+      <main id="content-start" class="content" tabindex="-1">
+        <!-- Content -->
+        <div id="content" class="">
+          <div class="grid-container">
+            <div class="grid-item" id="tile1">
+              <h3 id="system_name">System: {{system_name}}</h3>
+              <h3 id="node_name">Node Name: {{node_name}}</h3>
+              <h3 id="machine">Machine: {{machine}}</h3>
+              <h3 id="kernel_version">Kernel Version: {{kernel_version}}</h3>
+              <h3 id="kernel_version">System Uptime: {{uptime}}</h3>
+            </div>
+            <div class="grid-item" id="memory-tile">
+              <div class="progress-circle"></div>
+              <p class="data">
+                <h3>Total Memory: <span id="total_memory"></span> MB</h3>
+                <h3>Available Memory: <span id="available_memory"></span> MB</h3>
+                <h3>Used memory: <span id="used_memory"></span> MB</h3>
+                <h3>Memory Used: <span id="memory_percentage"></span> %</h3>
+              </p>
+            </div>
+            <div class="grid-item" id="disk-tile">
+              <div class="progress-circle"></div>
+              <p class="data"></p>
+            </div>
+            <div class="grid-item" id="cpu-tile">
+              <div class="progress-circle"></div>
+              <p class="data">
+                <h3>Physical Cores: <span id="physical_cores"></span></h3>
+                <h3>Total Cores: <span id="total_cores"></span></h3>
+                <h3>Frequency: <span id="processor_speed"></span> Mhz</h3>
+                <h3>Total Usage: <span id="total_cpu_usage"></span> %</h3>
+                <h3>Usage per core: <span id="cpu_usage_per_core"></span></h3>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- END Content -->
+      </main>
+    </div>
+</body>
+
+</html>
