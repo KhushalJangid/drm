@@ -6,7 +6,6 @@
 <head>
   <title>DRM</title>
   <link rel="stylesheet" href="{% static "css/base.css" %}">
-  <script src="{% static "js/resources.js" %}"></script>
   <link rel="stylesheet" href="/static/admin/css/base.css">
   <link rel="stylesheet" href="/static/admin/css/dark_mode.css">
   <script src="/static/admin/js/theme.js"></script>
@@ -90,36 +89,80 @@
       <main id="content-start" class="content" tabindex="-1">
         <!-- Content -->
         <div id="content" class="">
-          <div class="grid-container">
-            <div class="grid-item" id="tile1">
-              <h4 id="system_name">System: {{system_name}}</h4>
-              <h4 id="node_name">Node Name: {{node_name}}</h4>
-              <h4 id="machine">Machine: {{machine}}</h4>
-                <h4 id="kernel_version">Kernel Version: {{kernel_version}}</h4>
+          <div class="changelist-form-container">
+            <div id="toolbar">
+              <form id="changelist-search" method="get" role="search">
+                <div><!-- DIV needed for valid HTML -->
+                  <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
+                  <input type="text" size="40" name="q" value="" id="searchbar">
+                  <input type="submit" value="Search">
+                </div>
+              </form>
             </div>
-            <div class="grid-item" id="tile2">
-              <div class="progress-circle"></div>
-              <p class="data">
-                <h4 id="total_memory"></h4>
-                <h4 id="available_memory"></h4>
-                <h4 id="used_memory"></h4>
-                <h4 id="memory_percentage"></h4>
-              </p>
-            </div>
-            <div class="grid-item" id="tile3">
-              <div class="progress-circle"></div>
-              <p class="data"></p>
-            </div>
-            <div class="grid-item" id="tile4">
-              <div class="progress-circle"></div>
-              <p class="data">
-                <h4 id="physical_cores"></h4>
-                <h4 id="total_cores"></h4>
-                <h4 id="processor_speed"></h4>
-                <h4 id="cpu_usage_per_core"></h4>
-                <h4 id="total_cpu_usage"></h4>
-              </p>
-            </div>
+            <form id="changelist-form" method="post" novalidate=""><input type="hidden" name="csrfmiddlewaretoken"
+                value="PfgUErmLXp9SqtuCSF2IVpstzrkuc4vsz6X1qeAAglku6KD2LXE0bl11mK8m23Yg">
+              <div class="actions">
+                <label>Action: <select name="action" required="">
+                    <option value="" selected="">---------</option>
+                    <option value="delete_selected">Delete selected users</option>
+                  </select></label><input type="hidden" name="select_across" value="0" class="select-across">
+                <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+                <span class="action-counter" data-actions-icnt="1">0 of 1 selected</span>
+              </div>
+              <div class="results">
+                <table id="result_list">
+                  <thead>
+                    <tr>
+
+                      <th scope="col" class="action-checkbox-column">
+
+                        <div class="text"><span><input type="checkbox" id="action-toggle"
+                              aria-label="Select all objects on this page for an action"></span></div>
+                        <div class="clear"></div>
+                      </th>
+                      <th scope="col" class="sortable column-username sorted ascending">
+
+                        <div class="sortoptions">
+                          <a class="sortremove" href="?o=" title="Remove from sorting"></a>
+
+                          <a href="?o=-1" class="toggle ascending" title="Toggle sorting"></a>
+                        </div>
+
+                        <div class="text"><a href="?o=-1">Pid</a></div>
+                        <div class="clear"></div>
+                      </th>
+                      <th scope="col" class="sortable column-email">
+
+                        <div class="text"><a href="?o=2.1">Name</a></div>
+                        <div class="clear"></div>
+                      </th>
+                      <th scope="col" class="sortable column-first_name">
+
+                        <div class="text"><a href="?o=3.1">Memory %</a></div>
+                        <div class="clear"></div>
+                      </th>
+                      <th scope="col" class="sortable column-last_name">
+
+                        <div class="text"><a href="?o=4.1">CPU %</a></div>
+                        <div class="clear"></div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for process in processes %}
+                    <tr>
+                      <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="1"
+                          class="action-select" aria-label="Select this object for an action - {{process.pid}}"></td>
+                      <th class="field-pid">{{process.pid}}</th>
+                      <td class="field-name">{{process.name}}</td>
+                      <td class="field-memory">{{process.memory_percent}}</td>
+                      <td class="field-cpu">{{process.cpu_percent}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </form>
           </div>
         </div>
         <!-- END Content -->

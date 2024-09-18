@@ -2,7 +2,7 @@
 const fetchCpuData = async (apiUrl) => {
     const tile = document.getElementById("cpu-tile");
     const progress = tile.querySelector('.progress-circle');
-    const dataElement = tile.querySelector('.data');
+    const dataElement = tile.querySelector('.cpu');
 
     try {
         const response = await fetch(apiUrl);
@@ -14,7 +14,25 @@ const fetchCpuData = async (apiUrl) => {
             document.getElementById(key).textContent = data[key]
         }
         data = data["cpu_usage_per_core"];
-        document.getElementById("cpu_usage_per_core").textContent = data.toString();
+        const e = document.getElementById("cpu_usage_per_core");
+        for (let key in data) {
+            const h = document.createElement("h3");
+            h.textContent = `CPU ${key}: ${data[key]}%`;
+            var progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            progressBar.style.width = `${data[key]}%`;
+            progressBar.setAttribute('role', 'progressbar');
+            progressBar.setAttribute('aria-valuenow', data[key]);
+            progressBar.setAttribute('aria-valuemin', '0');
+            progressBar.setAttribute('aria-valuemax', '100');
+            // progressBar.textContent = '0%';
+            var progressBarContainer = document.createElement('div');
+            progressBarContainer.className = 'progress';
+            progressBarContainer.style.height = '15px';
+            progressBarContainer.appendChild(progressBar);
+            e.appendChild(h);
+            e.appendChild(progressBarContainer)
+        }
     } catch (error) {
         progress.style.display = 'none';
         dataElement.style.display = 'block';

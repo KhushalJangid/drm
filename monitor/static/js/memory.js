@@ -2,7 +2,7 @@
 const fetchMemoryData = async (apiUrl) => {
     const tile = document.getElementById("memory-tile");
     const progress = tile.querySelector('.progress-circle');
-    const dataElement = tile.querySelector('.data');
+    const dataElement = tile.querySelector('.memory');
 
     try {
         const response = await fetch(apiUrl);
@@ -12,7 +12,7 @@ const fetchMemoryData = async (apiUrl) => {
         dataElement.style.display = 'block';
 
         for (let key in data) {
-            document.getElementById(key).textContent = data[key]
+            document.getElementById(key).textContent = Number((data[key]).toFixed(2))
         }
     } catch (error) {
         progress.style.display = 'none';

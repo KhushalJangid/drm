@@ -102,19 +102,7 @@ def get_system_uptime():
     uptime_str = f"{int(uptime_days)} days, {int(uptime_hours % 24)} hours, {int(uptime_minutes % 60)} minutes, {int(uptime_seconds % 60)} seconds"
     return {"uptime": uptime_str}
 
-def process(request):
-    # process_info = []
-    # for process in psutil.process_iter(['pid', 'name', 'memory_percent', 'cpu_percent']):
-    #     try:
-    #         process_info.append({
-    #             "pid": process.info['pid'],
-    #             "name": process.info['name'],
-    #             "memory_percent": process.info['memory_percent'],
-    #             "cpu_percent": process.info['cpu_percent']
-    #         })
-    #     except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-    #         pass
-    # return JsonResponse(process_info,safe=False)
+def resources(request):
     boot_time_timestamp = psutil.boot_time()
     current_time_timestamp = time.time()
     uptime_seconds = current_time_timestamp - boot_time_timestamp
@@ -129,4 +117,18 @@ def process(request):
         "machine": os.uname().machine.capitalize(),
         "uptime": uptime_str,
     })
+
+def process(request):
+    process_info = []
+    for process in psutil.process_iter(['pid', 'name', 'memory_percent', 'cpu_percent']):
+        try:
+            process_info.append({
+                "pid": process.info['pid'],
+                "name": process.info['name'],
+                "memory_percent": process.info['memory_percent'],
+                "cpu_percent": process.info['cpu_percent']
+            })
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return render(request,"process.html",{"processes":process_info})
 
