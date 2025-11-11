@@ -29,14 +29,17 @@ def get_cpu_info(request):
 def get_disk_info(request):
     partitions = psutil.disk_partitions()
     disk_info = {}
-    for partition in partitions:
-        partition_usage = psutil.disk_usage(partition.mountpoint)
-        disk_info[partition.mountpoint] = {
-            "total_space": partition_usage.total / (1024.0 ** 3),
-            "used_space": partition_usage.used / (1024.0 ** 3),
-            "free_space": partition_usage.free / (1024.0 ** 3),
-            "usage_percentage": partition_usage.percent
-        }
+    # for partition in partitions:
+    partition = partitions[0]
+    # print(partition)
+    partition_usage = psutil.disk_usage(partition.mountpoint)
+    disk_info[partition.mountpoint] = {
+        "total_space": partition_usage.total / (1024.0 ** 3),
+        "used_space": partition_usage.used / (1024.0 ** 3),
+        "free_space": partition_usage.free / (1024.0 ** 3),
+        "usage_percentage": partition_usage.percent
+    }
+    print(disk_info)
     return JsonResponse(disk_info,safe=False)
 
 def get_network_info():
